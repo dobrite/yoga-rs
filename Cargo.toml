@@ -1,0 +1,11 @@
+[package]
+name = "yoga"
+version = "0.1.0"
+authors = ["Dave O <davidobrite@gmail.com>"]
+
+[dependencies]
+yoga-wrapper = { git = "https://github.com/dobrite/yoga-wrapper-rs.git" }
+
+[dev-dependencies]
+rustbox = "0.9.0"
+yoga-rustbox = { git = "https://github.com/dobrite/yoga-rustbox-rs.git" }
