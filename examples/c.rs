@@ -18,8 +18,6 @@ fn main() {
         Result::Err(e) => panic!("{}", e),
     };
 
-    let renderer = yoga_rustbox::Renderer::new(rustbox);
-
     let measurer = Measurer {};
     let tf = TextFactory::new(yoga_wrapper::ContextFactory::new(&measurer));
     let vf = ViewFactory::new();
@@ -44,12 +42,10 @@ fn main() {
 
     root.calculate_layout();
 
-    renderer.render(&root);
-
-    renderer.rustbox.present();
+    yoga_rustbox::Backend::new(&rustbox).draw(&root);
 
     loop {
-        match renderer.rustbox.poll_event(false) {
+        match rustbox.poll_event(false) {
             Ok(rustbox::Event::KeyEvent(key)) => {
                 match key {
                     Key::Char('q') => {
