@@ -10,7 +10,6 @@ use rustbox::RustBox;
 use rustbox::Key;
 
 use yoga_rustbox::Measurer;
-use yoga::{TextFactory, ViewFactory};
 
 fn main() {
     let rustbox = match RustBox::init(Default::default()) {
@@ -19,8 +18,6 @@ fn main() {
     };
 
     let measurer = Measurer {};
-    let tf = TextFactory::new(yoga_wrapper::ContextFactory::new(&measurer));
-    let vf = ViewFactory::new();
 
     let mut root = yoga_wrapper::Node::new();
     root.set_width(50.0);

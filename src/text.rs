@@ -1,31 +1,32 @@
-use yoga_wrapper::{Context, ContextFactory, Node};
+use yoga_wrapper;
 
-pub struct TextFactory<'meas> {
-    factory: ContextFactory<'meas>,
+pub struct Text<'text, 'meas> {
+    node: yoga_wrapper::Node,
+    context: yoga_wrapper::Context<'text, 'meas>,
 }
 
-impl<'meas> TextFactory<'meas> {
-    pub fn new(factory: ContextFactory) -> TextFactory {
-        TextFactory { factory: factory }
-    }
-
-    pub fn create<'text>(&self, text: &'text str) -> Text<'text, 'meas> {
+impl<'text, 'meas> Text<'text, 'meas> {
+    pub fn new(context: yoga_wrapper::Context<'text, 'meas>) -> Text<'text, 'meas> {
         Text {
-            node: Node::new(),
-            context: self.factory.create(text),
+            node: yoga_wrapper::Node::new(),
+            context: context,
         }
     }
 }
 
-pub struct Text<'text, 'meas> {
-    node: Node,
-    context: Context<'text, 'meas>,
-}
-
 #[cfg(test)]
 mod tests {
-    use TextFactory;
     use yoga_wrapper;
+
+    use Text;
+    use Backend;
+    use Renders;
+
+    struct Renderer {}
+
+    impl Renders for Renderer {
+        fn render(&self, node: &yoga_wrapper::Node) {}
+    }
 
     struct Measurer {}
 
@@ -38,10 +39,37 @@ mod tests {
         }
     }
 
+    struct TestBackend {
+        renderer: Renderer,
+        measurer: Measurer,
+    }
+
+    impl TestBackend {
+        pub fn new() -> TestBackend {
+            TestBackend {
+                renderer: Renderer {},
+                measurer: Measurer {},
+            }
+        }
+    }
+
+    impl<'meas> Backend<'meas> for TestBackend {
+        type Color = i32;
+        type Renderer = Renderer;
+        type Measurer = Measurer;
+
+        fn render(&self, renderer: &Self::Renderer, node: &yoga_wrapper::Node) {}
+
+        fn create_context<'text>(&'meas self,
+                                 text: &'text str)
+                                 -> yoga_wrapper::Context<'text, 'meas> {
+            yoga_wrapper::Context::new(text, &self.measurer)
+        }
+    }
+
     #[test]
     fn it_works() {
-        let m = &Measurer {};
-        let tf = TextFactory::new(yoga_wrapper::ContextFactory::new(m));
-        tf.create("Yo!");
+        let be = TestBackend::new();
+        let _ = Text::new(be.create_context("yo!"));
     }
 }

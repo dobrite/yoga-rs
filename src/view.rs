@@ -1,28 +1,21 @@
 use yoga_wrapper;
 
-pub struct ViewFactory {}
-
-impl ViewFactory {
-    pub fn new() -> ViewFactory {
-        ViewFactory {}
-    }
-
-    pub fn create(&self) -> View {
-        View { node: yoga_wrapper::Node::new() }
-    }
-}
-
 pub struct View {
     node: yoga_wrapper::Node,
 }
 
+impl View {
+    pub fn new() -> View {
+        View { node: yoga_wrapper::Node::new() }
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use ViewFactory;
+    use View;
 
     #[test]
     fn it_works() {
-        let vf = ViewFactory::new();
-        vf.create();
+        let _ = View::new();
     }
 }

@@ -6,5 +6,5 @@ mod view;
 
 pub use backend::Backend;
 pub use backend::Renders;
-pub use self::text::{Text, TextFactory};
-pub use self::view::{View, ViewFactory};
+pub use self::text::Text;
+pub use self::view::View;
