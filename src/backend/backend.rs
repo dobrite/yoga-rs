@@ -7,6 +7,7 @@ pub trait Backend<'meas> {
     type Renderer: Renders;
     type Measurer: yoga_wrapper::Measures;
 
-    fn render(&self, renderer: &Self::Renderer, node: &yoga_wrapper::Node);
+    fn render(&self, node: &yoga_wrapper::Node);
+    fn get_renderer(&self) -> &Self::Renderer;
     fn create_context<'text>(&'meas self, text: &'text str) -> yoga_wrapper::Context<'text, 'meas>;
 }

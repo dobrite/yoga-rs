@@ -1,15 +1,15 @@
 use yoga_wrapper;
 
-pub struct Text<'text, 'meas> {
+pub struct Text<'text> {
     node: yoga_wrapper::Node,
-    context: yoga_wrapper::Context<'text, 'meas>,
+    text: &'text str,
 }
 
-impl<'text, 'meas> Text<'text, 'meas> {
-    pub fn new(context: yoga_wrapper::Context<'text, 'meas>) -> Text<'text, 'meas> {
+impl<'text> Text<'text> {
+    pub fn new(text: &'text str) -> Text<'text> {
         Text {
             node: yoga_wrapper::Node::new(),
-            context: context,
+            text: text,
         }
     }
 }
@@ -58,7 +58,11 @@ mod tests {
         type Renderer = Renderer;
         type Measurer = Measurer;
 
-        fn render(&self, renderer: &Self::Renderer, node: &yoga_wrapper::Node) {}
+        fn render(&self, node: &yoga_wrapper::Node) {}
+
+        fn get_renderer(&self) -> &Self::Renderer {
+            &self.renderer
+        }
 
         fn create_context<'text>(&'meas self,
                                  text: &'text str)
@@ -70,6 +74,6 @@ mod tests {
     #[test]
     fn it_works() {
         let be = TestBackend::new();
-        let _ = Text::new(be.create_context("yo!"));
+        let _ = Text::new("yo!");
     }
 }

@@ -3,6 +3,8 @@ extern crate rustbox;
 extern crate yoga_rustbox;
 extern crate yoga;
 
+use yoga::Backend;
+
 use std::error::Error;
 use std::default::Default;
 
@@ -39,7 +41,7 @@ fn main() {
 
     root.calculate_layout();
 
-    yoga_rustbox::Backend::new(&rustbox).draw(&root);
+    yoga_rustbox::Backend::new(&rustbox).render(&root);
 
     loop {
         match rustbox.poll_event(false) {
