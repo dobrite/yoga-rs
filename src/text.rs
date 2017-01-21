@@ -25,7 +25,7 @@ mod tests {
     struct Renderer {}
 
     impl Renders for Renderer {
-        fn render(&self, node: &yoga_wrapper::Node) {}
+        fn render(&mut self, node: &yoga_wrapper::Node) {}
     }
 
     struct Measurer {}
@@ -58,10 +58,10 @@ mod tests {
         type Renderer = Renderer;
         type Measurer = Measurer;
 
-        fn render(&self, node: &yoga_wrapper::Node) {}
+        fn render(&mut self, node: &yoga_wrapper::Node) {}
 
-        fn get_renderer(&self) -> &Self::Renderer {
-            &self.renderer
+        fn get_renderer(&mut self) -> &mut Self::Renderer {
+            &mut self.renderer
         }
 
         fn create_context<'text>(&'meas self,
