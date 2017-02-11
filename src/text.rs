@@ -110,7 +110,6 @@ mod tests {
     impl<'meas> Backend<'meas> for TestBackend {
         type Color = i32;
         type Renderer = Renderer;
-        type Measurer = Measurer;
 
         fn render(&mut self, node: &Renderable) {}
 

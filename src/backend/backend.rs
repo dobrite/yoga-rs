@@ -6,7 +6,6 @@ use renderable::Renderable;
 pub trait Backend<'meas> {
     type Color;
     type Renderer: Renders<Renderable>;
-    type Measurer: yoga_wrapper::Measures;
 
     fn render(&mut self, node: &Renderable);
     fn get_renderer(&mut self) -> &mut Self::Renderer;
