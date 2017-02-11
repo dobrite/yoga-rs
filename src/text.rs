@@ -73,11 +73,13 @@ mod tests {
     use Text;
     use Backend;
     use Renders;
+    use Renderable;
 
     struct Renderer {}
 
-    impl Renders for Renderer {
-        fn render(&mut self, node: &yoga_wrapper::Node) {}
+
+    impl<R: Renderable + ?Sized> Renders<R> for Renderer {
+        fn render(&mut self, node: &R) {}
     }
 
     struct Measurer {}
@@ -110,7 +112,7 @@ mod tests {
         type Renderer = Renderer;
         type Measurer = Measurer;
 
-        fn render(&mut self, node: &yoga_wrapper::Node) {}
+        fn render(&mut self, node: &Renderable) {}
 
         fn get_renderer(&mut self) -> &mut Self::Renderer {
             &mut self.renderer
