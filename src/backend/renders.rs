@@ -1,5 +1,5 @@
-use yoga_wrapper;
+use renderable::Renderable;
 
-pub trait Renders {
-    fn render(&mut self, node: &yoga_wrapper::Node);
+pub trait Renders<R: Renderable + ?Sized> {
+    fn render(&mut self, node: &R);
 }
