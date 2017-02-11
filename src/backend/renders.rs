@@ -1,5 +1,7 @@
 use renderable::Renderable;
 
-pub trait Renders<R: Renderable + ?Sized> {
-    fn render(&mut self, node: &R);
+pub trait Renders {
+    type Color;
+
+    fn render(&mut self, node: &Renderable<Self::Color>);
 }

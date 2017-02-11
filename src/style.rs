@@ -2,29 +2,29 @@ use std::default::Default;
 
 use yoga_wrapper;
 
-use rgb::RGB;
-
 #[derive(Debug, PartialEq)]
-pub enum BackgroundColor {
-    Color(RGB<u8>),
+pub enum BackgroundColor<C> {
+    Color(C),
     Transparent,
 }
 
-impl Default for BackgroundColor {
-    fn default() -> BackgroundColor {
+impl<C> Default for BackgroundColor<C> {
+    fn default() -> BackgroundColor<C> {
         BackgroundColor::Transparent
     }
 }
 
 #[derive(Debug, Default)]
-pub struct Style {
-    color: Option<RGB<u8>>,
-    background_color: Option<BackgroundColor>,
+pub struct Style<C> {
+    color: Option<C>,
+    background_color: Option<BackgroundColor<C>>,
     node: yoga_wrapper::Node,
 }
 
-impl Style {
-    pub fn new() -> Self {
+impl<C> Style<C> {
+    pub fn new() -> Self
+        where C: Default
+    {
         Style { ..Default::default() }
     }
 
@@ -42,6 +42,14 @@ impl Style {
 
     pub fn get_layout_left(&self) -> f32 {
         self.node.get_layout_left()
+    }
+
+    pub fn get_color(&self) -> &Option<C> {
+        &self.color
+    }
+
+    pub fn get_background_color(&self) -> &Option<BackgroundColor<C>> {
+        &self.background_color
     }
 
     pub fn set_width(&mut self, width: f32) {

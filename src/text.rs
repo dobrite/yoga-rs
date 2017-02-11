@@ -1,18 +1,22 @@
 use yoga_wrapper;
 
 use renderable::Renderable;
-use style::Style;
+use style::{BackgroundColor, Style};
 
 #[derive(Debug, Default)]
-pub struct Text<'text> {
-    node: yoga_wrapper::Node,
+pub struct Text<'text, C> {
     text: &'text str,
-    style: Style,
+    style: Style<C>,
 }
 
-impl<'text> Text<'text> {
-    pub fn new(text: &'text str) -> Text<'text> {
-        Text { text: text, ..Default::default() }
+impl<'text, C> Text<'text, C> {
+    pub fn new(text: &'text str) -> Text<'text, C>
+        where C: Default
+    {
+        Text {
+            text: text,
+            style: Style::new(),
+        }
     }
 
     pub fn set_width(&mut self, width: f32) {
@@ -32,7 +36,7 @@ impl<'text> Text<'text> {
     }
 }
 
-impl<'text> Renderable for Text<'text> {
+impl<'text, C> Renderable<C> for Text<'text, C> {
     fn get_layout_width(&self) -> f32 {
         self.style.get_layout_width()
     }
@@ -57,12 +61,20 @@ impl<'text> Renderable for Text<'text> {
         0
     }
 
-    fn get_child(&self, _: usize) -> Option<&Renderable> {
+    fn get_child(&self, _: usize) -> Option<&Renderable<C>> {
         None
     }
 
     fn get_node(&self) -> &yoga_wrapper::Node {
         &self.style.get_node()
+    }
+
+    fn get_color(&self) -> &Option<C> {
+        self.style.get_color()
+    }
+
+    fn get_background_color(&self) -> &Option<BackgroundColor<C>> {
+        self.style.get_background_color()
     }
 }
 
@@ -78,8 +90,9 @@ mod tests {
     struct Renderer {}
 
 
-    impl<R: Renderable + ?Sized> Renders<R> for Renderer {
-        fn render(&mut self, node: &R) {}
+    impl Renders for Renderer {
+        type Color = i32;
+        fn render(&mut self, node: &Renderable<i32>) {}
     }
 
     struct Measurer {}
@@ -108,10 +121,7 @@ mod tests {
     }
 
     impl<'meas> Backend<'meas> for TestBackend {
-        type Color = i32;
         type Renderer = Renderer;
-
-        fn render(&mut self, node: &Renderable) {}
 
         fn get_renderer(&mut self) -> &mut Self::Renderer {
             &mut self.renderer
@@ -127,6 +137,6 @@ mod tests {
     #[test]
     fn it_works() {
         let be = TestBackend::new();
-        let _ = Text::new("yo!");
+        let _: Text<i32> = Text::new("yo!");
     }
 }

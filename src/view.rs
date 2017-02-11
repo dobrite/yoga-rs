@@ -1,17 +1,19 @@
 use yoga_wrapper;
 
 use renderable::Renderable;
-use style::Style;
+use style::{BackgroundColor, Style};
 
 #[derive(Default)]
-pub struct View<'r> {
+pub struct View<'r, C: 'r> {
     node: yoga_wrapper::Node,
-    style: Style,
-    children: Vec<&'r Renderable>, // TODO slice?
+    style: Style<C>,
+    children: Vec<&'r Renderable<C>>, // TODO slice?
 }
 
-impl<'r> View<'r> {
-    pub fn new() -> View<'r> {
+impl<'r, C> View<'r, C> {
+    pub fn new() -> View<'r, C>
+        where C: Default
+    {
         View { ..Default::default() }
     }
 
@@ -35,13 +37,13 @@ impl<'r> View<'r> {
         self.style.set_margin(edge, value)
     }
 
-    pub fn insert_child(&mut self, child: &'r Renderable, index: usize) {
+    pub fn insert_child(&mut self, child: &'r Renderable<C>, index: usize) {
         self.style.insert_child(child.get_node(), index);
         self.children.insert(index, child)
     }
 }
 
-impl<'r> Renderable for View<'r> {
+impl<'r, C> Renderable<C> for View<'r, C> {
     fn get_layout_width(&self) -> f32 {
         self.style.get_layout_width()
     }
@@ -66,11 +68,19 @@ impl<'r> Renderable for View<'r> {
         self.children.len()
     }
 
-    fn get_child(&self, index: usize) -> Option<&Renderable> {
+    fn get_child(&self, index: usize) -> Option<&Renderable<C>> {
         match self.children.get(index) {
             Some(r) => Some(*r),
             None => None,
         }
+    }
+
+    fn get_color(&self) -> &Option<C> {
+        self.style.get_color()
+    }
+
+    fn get_background_color(&self) -> &Option<BackgroundColor<C>> {
+        self.style.get_background_color()
     }
 
     fn get_node(&self) -> &yoga_wrapper::Node {
@@ -84,6 +94,6 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let _ = View::new();
+        let _: View<i32> = View::new();
     }
 }
