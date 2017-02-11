@@ -18,65 +18,30 @@ impl<'text, C> Text<'text, C> {
             style: Style::new(),
         }
     }
-
-    pub fn set_width(&mut self, width: f32) {
-        self.style.set_width(width)
-    }
-
-    pub fn set_height(&mut self, height: f32) {
-        self.style.set_height(height)
-    }
-
-    pub fn set_align_self(&mut self, value: yoga_wrapper::Align) {
-        self.style.set_align_self(value)
-    }
-
-    pub fn set_flex_grow(&mut self, value: f32) {
-        self.style.set_flex_grow(value)
-    }
 }
 
 impl<'text, C> Renderable<C> for Text<'text, C> {
-    fn get_layout_width(&self) -> f32 {
-        self.style.get_layout_width()
+    fn get_node(&self) -> &yoga_wrapper::Node {
+        self.style.get_node()
     }
 
-    fn get_layout_height(&self) -> f32 {
-        self.style.get_layout_height()
+    fn get_style(&self) -> &Style<C> {
+        &self.style
     }
 
-    fn get_layout_top(&self) -> f32 {
-        self.style.get_layout_top()
-    }
-
-    fn get_layout_left(&self) -> f32 {
-        self.style.get_layout_left()
-    }
-
-    fn calculate_layout(&mut self) {
-        self.style.calculate_layout()
-    }
-
-    fn get_child_count(&self) -> usize {
-        0
+    fn get_mut_style(&mut self) -> &mut Style<C> {
+        &mut self.style
     }
 
     fn get_child(&self, _: usize) -> Option<&Renderable<C>> {
         None
     }
 
-    fn get_node(&self) -> &yoga_wrapper::Node {
-        &self.style.get_node()
-    }
-
-    fn get_color(&self) -> &Option<C> {
-        self.style.get_color()
-    }
-
-    fn get_background_color(&self) -> &Option<BackgroundColor<C>> {
-        self.style.get_background_color()
+    fn get_child_count(&self) -> usize {
+        0
     }
 }
+
 
 #[cfg(test)]
 mod tests {
