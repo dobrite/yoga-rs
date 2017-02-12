@@ -48,15 +48,30 @@ mod tests {
     use yoga_wrapper;
 
     use Text;
+    use View;
     use Backend;
+    use Builds;
     use Renders;
     use Renderable;
 
-    struct Renderer {}
+    struct Builder {}
 
+    impl Builds<i32> for Builder {
+        fn view<'r>() -> View<'r, i32> {
+            View::new()
+        }
+
+        fn text(text: &str) -> Text<i32> {
+            Text::new(text)
+        }
+    }
+
+    struct Renderer {}
 
     impl Renders for Renderer {
         type Color = i32;
+        type Builder = Builder;
+
         fn render(&mut self, node: &Renderable<i32>) {}
     }
 

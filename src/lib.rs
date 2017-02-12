@@ -7,6 +7,7 @@ mod text;
 mod view;
 
 pub use backend::Backend;
+pub use backend::Builds;
 pub use backend::Renders;
 
 pub use self::renderable::Renderable;
