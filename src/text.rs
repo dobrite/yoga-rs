@@ -54,21 +54,29 @@ mod tests {
     use Renders;
     use Renderable;
 
-    struct Builder {}
+    struct Builder {
+        measurer: Measurer,
+    }
 
-    impl Builds<i32> for Builder {
-        fn view<'r>() -> View<'r, i32> {
+    impl<'meas> Builds<'meas, i32> for Builder {
+        fn create_context<'text>(&'meas self,
+                                 text: &'text str)
+                                 -> yoga_wrapper::Context<'text, 'meas> {
+            yoga_wrapper::Context::new(text, &self.measurer)
+        }
+
+        fn view<'r>(&self) -> View<'r, i32> {
             View::new()
         }
 
-        fn text(text: &str) -> Text<i32> {
+        fn text<'t, 'a: 't>(&'a self, text: &'t str) -> Text<'t, i32> {
             Text::new(text)
         }
     }
 
     struct Renderer {}
 
-    impl Renders for Renderer {
+    impl<'meas> Renders<'meas> for Renderer {
         type Color = i32;
         type Builder = Builder;
 
@@ -105,12 +113,6 @@ mod tests {
 
         fn get_renderer(&mut self) -> &mut Self::Renderer {
             &mut self.renderer
-        }
-
-        fn create_context<'text>(&'meas self,
-                                 text: &'text str)
-                                 -> yoga_wrapper::Context<'text, 'meas> {
-            yoga_wrapper::Context::new(text, &self.measurer)
         }
     }
 
