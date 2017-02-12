@@ -5,7 +5,6 @@ use style::{BackgroundColor, Style};
 
 #[derive(Default)]
 pub struct View<'r, C: 'r> {
-    node: yoga_wrapper::Node,
     style: Style<C>,
     children: Vec<&'r Renderable<C>>, // TODO slice?
 }
