@@ -84,6 +84,10 @@ impl<C> Style<C> {
         &self.node
     }
 
+    pub fn get_mut_node(&mut self) -> &mut yoga_wrapper::Node {
+        &mut self.node
+    }
+
     pub fn set_align_self(&mut self, value: yoga_wrapper::Align) {
         self.node.set_align_self(value)
     }
