@@ -10,12 +10,20 @@ pub struct Text<'text, C> {
 }
 
 impl<'text, C> Text<'text, C> {
-    pub fn new(text: &'text str) -> Text<'text, C>
+    pub fn new(text: &'text str, context: &mut yoga_wrapper::Context) -> Text<'text, C>
         where C: Default
     {
+        let mut style = Style::new();
+
+        {
+            let node = style.get_mut_node();
+            node.set_measure_func(yoga_wrapper::measure);
+            node.set_context(context);
+        }
+
         Text {
             text: text,
-            style: Style::new(),
+            style: style,
         }
     }
 }
