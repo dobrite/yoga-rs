@@ -78,7 +78,7 @@ mod tests {
         }
 
         fn text<'t, 'a: 't>(&'a self, text: &'t str) -> Text<'t, i32> {
-            Text::new(text)
+            Text::new(text, &mut self.create_context(text))
         }
     }
 
@@ -126,7 +126,6 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let be = TestBackend::new();
-        let _: Text<i32> = Text::new("yo!");
+        (Builder { measurer: Measurer {} }).text("yo!!");
     }
 }
