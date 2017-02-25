@@ -48,9 +48,18 @@ impl<C> Style<C> {
         &self.color
     }
 
+    pub fn set_color(&mut self, color: Option<C>) {
+        self.color = color
+    }
+
     pub fn get_background_color(&self) -> &Option<BackgroundColor<C>> {
         &self.background_color
     }
+
+    pub fn set_background_color(&mut self, background_color: Option<BackgroundColor<C>>) {
+        self.background_color = background_color
+    }
+
 
     pub fn set_width(&mut self, width: f32) {
         self.node.set_width(width)
