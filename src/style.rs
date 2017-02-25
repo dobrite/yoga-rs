@@ -84,8 +84,18 @@ impl<C> Style<C> {
         &self.node
     }
 
-    pub fn get_mut_node(&mut self) -> &mut yoga_wrapper::Node {
-        &mut self.node
+    pub fn set_measure_func(&mut self,
+                            func: extern "C" fn(*mut yoga_wrapper::RawNode,
+                                                f32,
+                                                yoga_wrapper::MeasureMode,
+                                                f32,
+                                                yoga_wrapper::MeasureMode)
+                                                -> yoga_wrapper::Size) {
+        self.node.set_measure_func(func);
+    }
+
+    pub fn set_context(&mut self, context: &mut yoga_wrapper::Context) {
+        self.node.set_context(context)
     }
 
     pub fn set_align_self(&mut self, value: yoga_wrapper::Align) {

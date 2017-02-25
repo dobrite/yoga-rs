@@ -3,32 +3,32 @@ use yoga_wrapper;
 use renderable::Renderable;
 use style::{BackgroundColor, Style};
 
-#[derive(Debug, Default)]
-pub struct Text<'text, C> {
-    text: &'text str,
+#[derive(Debug)]
+pub struct Text<'text, 'meas, C> {
+    text: &'text str, // TODO this needs owned?
     style: Style<C>,
+    context: Box<yoga_wrapper::Context<'text, 'meas>>,
 }
 
-impl<'text, C> Text<'text, C> {
-    pub fn new(text: &'text str, context: &mut yoga_wrapper::Context) -> Text<'text, C>
+impl<'text, 'meas, C> Text<'text, 'meas, C> {
+    pub fn new(text: &'text str,
+               mut context: Box<yoga_wrapper::Context<'text, 'meas>>)
+               -> Text<'text, 'meas, C>
         where C: Default
     {
         let mut style = Style::new();
-
-        {
-            let node = style.get_mut_node();
-            node.set_measure_func(yoga_wrapper::measure);
-            node.set_context(context);
-        }
+        style.set_measure_func(yoga_wrapper::measure);
+        style.set_context(&mut context);
 
         Text {
             text: text,
             style: style,
+            context: context,
         }
     }
 }
 
-impl<'text, C> Renderable<C> for Text<'text, C> {
+impl<'text, 'meas, C> Renderable<C> for Text<'text, 'meas, C> {
     fn get_node(&self) -> &yoga_wrapper::Node {
         self.style.get_node()
     }
@@ -69,16 +69,16 @@ mod tests {
     impl<'meas> Builds<'meas, i32> for Builder {
         fn create_context<'text>(&'meas self,
                                  text: &'text str)
-                                 -> yoga_wrapper::Context<'text, 'meas> {
-            yoga_wrapper::Context::new(text, &self.measurer)
+                                 -> Box<yoga_wrapper::Context<'text, 'meas>> {
+            Box::new(yoga_wrapper::Context::new(text, &self.measurer))
         }
 
         fn view<'r>(&self) -> View<'r, i32> {
             View::new()
         }
 
-        fn text<'t, 'a: 't>(&'a self, text: &'t str) -> Text<'t, i32> {
-            Text::new(text, &mut self.create_context(text))
+        fn text<'text>(&'meas self, text: &'text str) -> Text<'text, 'meas, i32> {
+            Text::new(text, self.create_context(text))
         }
     }
 
@@ -127,5 +127,12 @@ mod tests {
     #[test]
     fn it_works() {
         (Builder { measurer: Measurer {} }).text("yo!!");
+    }
+
+    #[test]
+    fn it_calculates_layout() {
+        let builder = Builder { measurer: Measurer {} };
+        let mut text = builder.text("yo!!");
+        text.calculate_layout();
     }
 }
