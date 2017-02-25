@@ -7,6 +7,7 @@ pub trait Renderable<C> {
     fn get_child(&self, index: usize) -> Option<&Renderable<C>>;
     fn get_child_count(&self) -> usize;
     fn get_node(&self) -> &yoga_wrapper::Node;
+    fn get_text(&self) -> Option<&str>;
 
     fn get_layout_width(&self) -> f32 {
         self.get_style().get_layout_width()

@@ -23,6 +23,10 @@ impl<'r, C> View<'r, C> {
 }
 
 impl<'r, C> Renderable<C> for View<'r, C> {
+    fn get_text(&self) -> Option<&str> {
+        None
+    }
+
     fn get_node(&self) -> &yoga_wrapper::Node {
         self.style.get_node()
     }

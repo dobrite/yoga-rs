@@ -29,6 +29,10 @@ impl<'text, 'meas, C> Text<'text, 'meas, C> {
 }
 
 impl<'text, 'meas, C> Renderable<C> for Text<'text, 'meas, C> {
+    fn get_text(&self) -> Option<&str> {
+        Some(self.text)
+    }
+
     fn get_node(&self) -> &yoga_wrapper::Node {
         self.style.get_node()
     }
