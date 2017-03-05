@@ -1,5 +1,5 @@
-use yoga_wrapper;
 use style::{BackgroundColor, Style};
+use yoga_wrapper;
 
 pub trait Renderable<C> {
     fn get_style(&self) -> &Style<C>;

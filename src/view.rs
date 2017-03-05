@@ -1,7 +1,6 @@
-use yoga_wrapper;
-
 use renderable::Renderable;
 use style::Style;
+use yoga_wrapper;
 
 pub struct View<'r, C: 'r> {
     style: Style<C>,

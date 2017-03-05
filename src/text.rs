@@ -1,7 +1,6 @@
-use yoga_wrapper;
-
 use renderable::Renderable;
 use style::Style;
+use yoga_wrapper;
 
 #[derive(Debug)]
 pub struct Text<'text, 'meas, C> {
@@ -11,9 +10,10 @@ pub struct Text<'text, 'meas, C> {
 }
 
 impl<'text, 'meas, C> Text<'text, 'meas, C> {
-    pub fn new(text: &'text str,
-               mut context: Box<yoga_wrapper::Context<'text, 'meas>>)
-               -> Text<'text, 'meas, C> {
+    pub fn new(
+        text: &'text str,
+        mut context: Box<yoga_wrapper::Context<'text, 'meas>>
+    ) -> Text<'text, 'meas, C> {
         let mut style = Style::new();
         style.set_measure_func(yoga_wrapper::measure);
         style.set_context(&mut context);
@@ -52,26 +52,26 @@ impl<'text, 'meas, C> Renderable<C> for Text<'text, 'meas, C> {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
-    use yoga_wrapper;
+    use Backend;
+    use Builds;
+    use Renderable;
+    use Renders;
 
     use Text;
     use View;
-    use Backend;
-    use Builds;
-    use Renders;
-    use Renderable;
+    use yoga_wrapper;
 
     struct Builder {
         measurer: Measurer,
     }
 
     impl<'meas> Builds<'meas, i32> for Builder {
-        fn create_context<'text>(&'meas self,
-                                 text: &'text str)
-                                 -> Box<yoga_wrapper::Context<'text, 'meas>> {
+        fn create_context<'text>(
+            &'meas self,
+            text: &'text str
+        ) -> Box<yoga_wrapper::Context<'text, 'meas>> {
             Box::new(yoga_wrapper::Context::new(text, &self.measurer))
         }
 

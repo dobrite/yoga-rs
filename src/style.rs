@@ -95,13 +95,15 @@ impl<C> Style<C> {
         &self.node
     }
 
-    pub fn set_measure_func(&mut self,
-                            func: extern "C" fn(*mut yoga_wrapper::RawNode,
-                                                f32,
-                                                yoga_wrapper::MeasureMode,
-                                                f32,
-                                                yoga_wrapper::MeasureMode)
-                                                -> yoga_wrapper::Size) {
+    pub fn set_measure_func(
+        &mut self,
+        func: extern "C" fn(*mut yoga_wrapper::RawNode,
+                            f32,
+                            yoga_wrapper::MeasureMode,
+                            f32,
+                            yoga_wrapper::MeasureMode)
+                            -> yoga_wrapper::Size
+    ) {
         self.node.set_measure_func(func);
     }
 
