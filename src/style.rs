@@ -14,7 +14,7 @@ impl<C> Default for BackgroundColor<C> {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct Style<C> {
     color: Option<C>,
     background_color: Option<BackgroundColor<C>>,
@@ -22,10 +22,12 @@ pub struct Style<C> {
 }
 
 impl<C> Style<C> {
-    pub fn new() -> Self
-        where C: Default
-    {
-        Style { ..Default::default() }
+    pub fn new() -> Self {
+        Style {
+            color: None,
+            background_color: Some(BackgroundColor::Transparent),
+            node: Default::default(),
+        }
     }
 
     pub fn get_layout_width(&self) -> f32 {

@@ -1,19 +1,19 @@
 use yoga_wrapper;
 
 use renderable::Renderable;
-use style::{BackgroundColor, Style};
+use style::Style;
 
-#[derive(Default)]
 pub struct View<'r, C: 'r> {
     style: Style<C>,
     children: Vec<&'r Renderable<C>>, // TODO slice?
 }
 
 impl<'r, C> View<'r, C> {
-    pub fn new() -> View<'r, C>
-        where C: Default
-    {
-        View { ..Default::default() }
+    pub fn new() -> View<'r, C> {
+        View {
+            style: Style::new(),
+            children: Default::default(),
+        }
     }
 
     pub fn insert_child(&mut self, child: &'r Renderable<C>, index: usize) {

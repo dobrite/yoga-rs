@@ -3,7 +3,7 @@ extern crate rustbox;
 extern crate yoga_rustbox;
 extern crate yoga;
 
-use yoga::{Backend, Builds, Renders, Renderable};
+use yoga::{Backend, Builds, Renderable};
 
 use std::error::Error;
 use std::default::Default;

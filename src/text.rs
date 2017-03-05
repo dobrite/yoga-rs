@@ -1,11 +1,11 @@
 use yoga_wrapper;
 
 use renderable::Renderable;
-use style::{BackgroundColor, Style};
+use style::Style;
 
 #[derive(Debug)]
 pub struct Text<'text, 'meas, C> {
-    text: &'text str, // TODO this needs owned?
+    text: &'text str, // TODO this needs owned? // TODO rename children
     style: Style<C>,
     context: Box<yoga_wrapper::Context<'text, 'meas>>,
 }
@@ -13,9 +13,7 @@ pub struct Text<'text, 'meas, C> {
 impl<'text, 'meas, C> Text<'text, 'meas, C> {
     pub fn new(text: &'text str,
                mut context: Box<yoga_wrapper::Context<'text, 'meas>>)
-               -> Text<'text, 'meas, C>
-        where C: Default
-    {
+               -> Text<'text, 'meas, C> {
         let mut style = Style::new();
         style.set_measure_func(yoga_wrapper::measure);
         style.set_context(&mut context);
