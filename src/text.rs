@@ -88,9 +88,13 @@ mod tests {
 
     impl<'meas> Renders<'meas> for Renderer {
         type Color = i32;
+        type Input = bool;
+        type Output = bool;
         type Builder = Builder;
 
-        fn render(&mut self, node: &Renderable<i32>) {}
+        fn render(&mut self, node: &Renderable<i32>, input: &mut bool) -> bool {
+            false
+        }
     }
 
     struct Measurer {}
