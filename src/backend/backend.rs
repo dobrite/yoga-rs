@@ -9,7 +9,7 @@ pub trait Backend<'meas> {
     fn render(
         &mut self,
         node: &Renderable<<<Self as Backend<'meas>>::Renderer as Renders<'meas>>::Color>,
-        input: &mut <<Self as Backend<'meas>>::Renderer as Renders<'meas>>::Input
+        input: <<Self as Backend<'meas>>::Renderer as Renders<'meas>>::Input
     ) -> <<Self as Backend<'meas>>::Renderer as Renders<'meas>>::Output {
         self.get_renderer().render(node, input)
     }

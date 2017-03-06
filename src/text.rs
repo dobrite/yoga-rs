@@ -92,7 +92,7 @@ mod tests {
         type Output = bool;
         type Builder = Builder;
 
-        fn render(&mut self, node: &Renderable<i32>, input: &mut bool) -> bool {
+        fn render(&mut self, node: &Renderable<i32>, input: bool) -> bool {
             false
         }
     }
