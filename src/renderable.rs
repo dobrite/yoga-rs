@@ -42,7 +42,8 @@ pub trait Renderable<C> {
     }
 
     fn set_background_color(&mut self, background_color: Option<BackgroundColor<C>>) {
-        self.get_mut_style().set_background_color(background_color)
+        self.get_mut_style()
+            .set_background_color(background_color)
     }
 
     fn set_width(&mut self, width: f32) {

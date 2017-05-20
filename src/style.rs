@@ -102,7 +102,7 @@ impl<C> Style<C> {
                             yoga_wrapper::MeasureMode,
                             f32,
                             yoga_wrapper::MeasureMode)
-                            -> yoga_wrapper::Size
+                            -> yoga_wrapper::Size,
     ) {
         self.node.set_measure_func(func);
     }

@@ -12,7 +12,7 @@ pub struct Text<'text, 'meas, C> {
 impl<'text, 'meas, C> Text<'text, 'meas, C> {
     pub fn new(
         text: &'text str,
-        mut context: Box<yoga_wrapper::Context<'text, 'meas>>
+        mut context: Box<yoga_wrapper::Context<'text, 'meas>>,
     ) -> Text<'text, 'meas, C> {
         let mut style = Style::new();
         style.set_measure_func(yoga_wrapper::measure);
@@ -70,7 +70,7 @@ mod tests {
     impl<'meas> Builds<'meas, i32> for Builder {
         fn create_context<'text>(
             &'meas self,
-            text: &'text str
+            text: &'text str,
         ) -> Box<yoga_wrapper::Context<'text, 'meas>> {
             Box::new(yoga_wrapper::Context::new(text, &self.measurer))
         }

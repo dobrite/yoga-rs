@@ -10,7 +10,7 @@ pub trait Backend<'meas> {
         &mut self,
         node: &Renderable<<<Self as Backend<'meas>>::Renderer as Renders<'meas>>::Color>,
         input: <<Self as Backend<'meas>>::Renderer as Renders<'meas>>::Input
-    ) -> <<Self as Backend<'meas>>::Renderer as Renders<'meas>>::Output {
+) -> <<Self as Backend<'meas>>::Renderer as Renders<'meas>>::Output{
         self.get_renderer().render(node, input)
     }
 }
